@@ -1,8 +1,8 @@
 import React from "react";
-import routes from "../routes";
 import { Link } from "react-router-dom";
+import routes from "../routes";
 
-function SignIn() {
+function SignUp() {
   return (
     <div className="flex h-[700px] w-full">
       <div className="w-full hidden md:inline-block">
@@ -15,11 +15,12 @@ function SignIn() {
 
       <div className="w-full flex flex-col items-center justify-center">
         <form className="md:w-96 w-80 flex flex-col items-center justify-center">
-          <h2 className="text-4xl text-white font-medium">Sign in</h2>
+          <h2 className="text-4xl text-white font-medium">Sign up</h2>
           <p className="text-sm text-gray-500/90 mt-3">
-            Welcome back! Please sign in to continue
+            Create an account to get started
           </p>
 
+          {/* Google button */}
           <button
             type="button"
             className="w-full mt-8 bg-gray-500/10 flex items-center justify-center h-12 rounded-full"
@@ -33,12 +34,33 @@ function SignIn() {
           <div className="flex items-center gap-4 w-full my-5">
             <div className="w-full h-px bg-gray-300/90"></div>
             <p className="w-full text-nowrap text-sm text-gray-500/90">
-              or sign in with email
+              or sign up with email
             </p>
             <div className="w-full h-px bg-gray-300/90"></div>
           </div>
 
+          {/* First Name */}
           <div className="flex items-center w-full bg-transparent border border-gray-300/60 h-12 rounded-full overflow-hidden pl-6 gap-2">
+            <input
+              type="text"
+              placeholder="First Name"
+              className="bg-transparent text-gray-500/80 placeholder-gray-500/80 outline-none text-sm w-full h-full"
+              required
+            />
+          </div>
+
+          {/* Last Name */}
+          <div className="flex items-center w-full bg-transparent mt-4 border border-gray-300/60 h-12 rounded-full overflow-hidden pl-6 gap-2">
+            <input
+              type="text"
+              placeholder="Last Name"
+              className="bg-transparent text-gray-500/80 placeholder-gray-500/80 outline-none text-sm w-full h-full"
+              required
+            />
+          </div>
+
+          {/* Email */}
+          <div className="flex items-center w-full bg-transparent border border-gray-300/60 h-12 mt-6 rounded-full overflow-hidden pl-6 gap-2">
             <svg
               width="16"
               height="11"
@@ -55,13 +77,14 @@ function SignIn() {
             </svg>
             <input
               type="email"
-              placeholder="Email id"
+              placeholder="Email"
               className="bg-transparent text-gray-500/80 placeholder-gray-500/80 outline-none text-sm w-full h-full"
               required
             />
           </div>
 
-          <div className="flex items-center mt-6 w-full bg-transparent border border-gray-300/60 h-12 rounded-full overflow-hidden pl-6 gap-2">
+          {/* Password */}
+          <div className="flex items-center w-full bg-transparent border border-gray-300/60 h-12 mt-6 rounded-full overflow-hidden pl-6 gap-2">
             <svg
               width="13"
               height="17"
@@ -82,31 +105,18 @@ function SignIn() {
             />
           </div>
 
-          <div className="w-full flex items-center justify-between mt-8 text-gray-500/80">
-            <div className="flex items-center gap-2">
-              <input className="h-5" type="checkbox" id="checkbox" />
-              <label className="text-sm" htmlFor="checkbox">
-                Remember me
-              </label>
-            </div>
-            <a className="text-sm underline" href="#">
-              Forgot password?
-            </a>
-          </div>
-
+          {/* Submit */}
           <button
             type="submit"
             className="mt-8 w-full h-11 rounded-full text-white bg-indigo-500 hover:opacity-90 transition-opacity"
           >
-            Login
+            Create Account
           </button>
+
           <p className="text-gray-500/90 text-sm mt-4">
-            Don’t have an account?{" "}
-            <Link
-              to={routes.signUp}
-              className="text-indigo-400 hover:underline"
-            >
-              Sign up
+            Already have an account?{" "}
+            <Link to={routes.signIn} className="text-indigo-400 hover:underline" >
+              Sign in
             </Link>
           </p>
         </form>
@@ -115,4 +125,4 @@ function SignIn() {
   );
 }
 
-export default SignIn;
+export default SignUp;

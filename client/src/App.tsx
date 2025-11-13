@@ -1,6 +1,13 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Landing, Home, SignIn, Dashboard, PageNotFound } from "./pages/index";
+import {
+  Landing,
+  Home,
+  SignIn,
+  SignUp,
+  Dashboard,
+  PageNotFound,
+} from "./pages/index";
 import Layout from "./components/Layout";
 import ROUTES from "./routes";
 
@@ -9,6 +16,7 @@ function App() {
     <BrowserRouter basename="/">
       <Routes>
         <Route path={ROUTES.signIn} element={<SignIn />} />
+        <Route path={ROUTES.signUp} element={<SignUp />} />
 
         <Route path={ROUTES.landing} element={<Layout />}>
           <Route path={ROUTES.landing} element={<Landing />} />
