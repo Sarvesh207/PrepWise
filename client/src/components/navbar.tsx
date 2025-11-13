@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { MenuIcon, XIcon } from "lucide-react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
-import {LogoSVG} from "./svgsComponnet";
+import { Link, useNavigate } from "react-router-dom";
+import { LogoSVG } from "./svgsComponnet";
+import routes from "../routes";
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
   const navlinks = [
     // {
     //   href: "#creations",
@@ -23,6 +25,7 @@ export default function Navbar() {
     //   text: "Contact",
     // },
   ];
+
   return (
     <>
       <motion.nav
@@ -50,10 +53,16 @@ export default function Navbar() {
         </div>
 
         <div className="hidden lg:block space-x-3">
-          <button className="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 transition text-white rounded-md active:scale-95">
+          <button
+            onClick={() => navigate(routes.signUp)}
+            className="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 transition text-white rounded-md active:scale-95"
+          >
             Get started
           </button>
-          <button className="hover:bg-slate-300/20 transition px-6 py-2 border border-slate-400 rounded-md active:scale-95">
+          <button
+            onClick={() => navigate(routes.signIn)}
+            className="hover:bg-slate-300/20 transition px-6 py-2 border border-slate-400 rounded-md active:scale-95"
+          >
             Login
           </button>
         </div>
