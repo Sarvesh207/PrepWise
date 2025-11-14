@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import routes from "../routes";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { jwtDecode } from "jwt-decode";
+import config from "../utils/config.js";
+import { toast } from "react-toastify";
+import authApi from "../services/auth.api";
+import { addUser } from "../store/slices/userSlice";
+import { useDispatch } from "react-redux";
 
 function SignIn() {
   const {
@@ -13,6 +20,36 @@ function SignIn() {
   const onSubmit = (data) => {
     console.log("FORM DATA:", data);
   };
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  function handleCallbackResponse(response) {
+    const userObject = jwtDecode(response.credential);
+    authApi
+      .googleSignIn(response)
+      .then((data) => {
+        console.log("User Details", data);
+        if (data.status === 200) {
+          toast.success("Logged in successfully");
+          dispatch(addUser(data.data.user));
+          navigate("/home");
+        }
+      })
+      .catch((error) => {
+        console.log("ERROR", error);
+      });
+  }
+  useEffect(() => {
+    google.accounts.id.initialize({
+      client_id: config.googleClientID,
+      callback: handleCallbackResponse,
+    });
+
+    google.accounts.id.renderButton(document.getElementById("googleBtn"), {
+      theme: "outline",
+      size: "large",
+    });
+  }, []);
 
   return (
     <div className="flex h-[700px] w-full">
@@ -35,15 +72,7 @@ function SignIn() {
           </p>
 
           {/* Google Button */}
-          <button
-            type="button"
-            className="w-full mt-8 bg-gray-500/10 flex items-center justify-center h-12 rounded-full"
-          >
-            <img
-              src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/login/googleLogo.svg"
-              alt="googleLogo"
-            />
-          </button>
+          <div id="googleBtn" className="mt-5"></div>
 
           <div className="flex items-center gap-4 w-full my-5">
             <div className="w-full h-px bg-gray-300/90"></div>

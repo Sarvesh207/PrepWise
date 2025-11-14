@@ -4,9 +4,13 @@ import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { LogoSVG } from "./svgsComponnet";
 import routes from "../routes";
+import { useSelector } from "react-redux";
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const user = useSelector((store) => store.user);
+
+  console.log("user113654", user);
   const navlinks = [
     // {
     //   href: "#creations",
@@ -35,7 +39,7 @@ export default function Navbar() {
         viewport={{ once: true }}
         transition={{ type: "spring", stiffness: 250, damping: 70, mass: 1 }}
       >
-        <Link to="#">
+        <Link to="/">
           {/* <img className="h-9 w-auto" src="/assets/logo.svg" width={200} height={200} alt="logo" /> */}
           <LogoSVG />
         </Link>
@@ -52,20 +56,22 @@ export default function Navbar() {
           ))}
         </div>
 
-        <div className="hidden lg:block space-x-3">
-          <button
-            onClick={() => navigate(routes.signUp)}
-            className="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 transition text-white rounded-md active:scale-95"
-          >
-            Get started
-          </button>
-          <button
-            onClick={() => navigate(routes.signIn)}
-            className="hover:bg-slate-300/20 transition px-6 py-2 border border-slate-400 rounded-md active:scale-95"
-          >
-            Login
-          </button>
-        </div>
+        {!user && (
+          <div className="hidden lg:block space-x-3">
+            <button
+              onClick={() => navigate(routes.signUp)}
+              className="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 transition text-white rounded-md active:scale-95"
+            >
+              Get started
+            </button>
+            <button
+              onClick={() => navigate(routes.signIn)}
+              className="hover:bg-slate-300/20 transition px-6 py-2 border border-slate-400 rounded-md active:scale-95"
+            >
+              Login
+            </button>
+          </div>
+        )}
         <button
           onClick={() => setIsMenuOpen(true)}
           className="lg:hidden active:scale-90 transition"

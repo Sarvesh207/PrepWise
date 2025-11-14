@@ -1,5 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import routes from "../routes";
+import { Link } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+import config from "../utils/config.js";
+import { toast } from "react-toastify";
+import authApi from "../services/auth.api";
+import { addUser } from "../store/slices/userSlice";
+import { useDispatch } from "react-redux";
 
 function SignUp() {
   const {
@@ -11,6 +20,37 @@ function SignUp() {
   const onSubmit = (data) => {
     console.log("Form Submitted:", data);
   };
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  function handleCallbackResponse(response) {
+    const userObject = jwtDecode(response.credential);
+    authApi
+      .googleSignIn(response)
+      .then((data) => {
+        console.log("User Details", data);
+        if (data.status === 200) {
+          toast.success("Signed up successfully");
+          dispatch(addUser(data.data.user));
+          navigate("/home");
+        }
+      })
+      .catch((error) => {
+        console.log("ERROR", error);
+      });
+  }
+  useEffect(() => {
+    google.accounts.id.initialize({
+      client_id: config.googleClientID,
+      callback: handleCallbackResponse,
+    });
+
+    google.accounts.id.renderButton(document.getElementById("googleBtn"), {
+      theme: "outline",
+      size: "large",
+    });
+  }, []);
 
   return (
     <div className="flex h-[700px] w-full">
@@ -35,15 +75,7 @@ function SignUp() {
           </p>
 
           {/* Google Sign Up */}
-          <button
-            type="button"
-            className="w-full mt-8 bg-gray-500/10 flex items-center justify-center h-12 rounded-full"
-          >
-            <img
-              src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/login/googleLogo.svg"
-              alt="googleLogo"
-            />
-          </button>
+          <div id="googleBtn" className="mt-5"></div>
 
           {/* Divider */}
           <div className="flex items-center gap-4 w-full my-5">
@@ -204,9 +236,12 @@ function SignUp() {
 
           <p className="text-gray-500/90 text-sm mt-4">
             Already have an account?{" "}
-            <a className="text-indigo-400 hover:underline" href="#">
+            <Link
+              to={routes.signIn}
+              className="text-indigo-400 hover:underline"
+            >
               Sign in
-            </a>
+            </Link>
           </p>
         </form>
       </div>
