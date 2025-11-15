@@ -1,8 +1,8 @@
 import Footer from "./footer";
-import Layout from "./Layout";
-import Lenis from "lenis";
 import Navbar from "./navbar";
 import SectionTitle from "./section-title";
 import TiltedImage from "./tilt-image";
+import { AppSidebar } from "./app-sidebar";
+import LenisScroll from "./lenis-scroll";
 
-export { Footer, Layout, Lenis, Navbar, SectionTitle, TiltedImage };
+export { Footer, Navbar, SectionTitle, TiltedImage, AppSidebar, LenisScroll };

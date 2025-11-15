@@ -9,7 +9,7 @@ import {
 
 function Landing() {
   return (
-    <main className="px-6 md:px-16 lg:px-24 xl:px-32">
+    <main className="px-6 md:px-16 lg:px-12 xl:px-16">
       <HeroSection />
       <OurLatestCreation />
       <AboutOurApps />
